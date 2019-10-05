@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Design your taco!</title>
+    <style>
+        .grid {
+            display: grid;
+            grid-gap: 1em;
+            grid-template-columns: 1fr 1fr;
+        }
+    </style>
+</head>
+<body>
+<h1>Design your taco!</h1>
+<form method="post" th:object="${design}">
+
+    <div class="grid">
+        <div class="grid-area">
+            <h2>Designate your wrap:</h2>
+            <div th:each="ingredient: ${wrap}">
+                <input
+                        type="checkbox"
+                        name="ingredients"
+                        th:id="${'ingredient' + ingredient.getCode()}"
+                        th:value="${ingredient.getCode()}"/>
+                <label
+                        th:for="${'ingredient' + ingredient.getCode()}"
+                        th:text="${ingredient.getName()}">INGREDIENT</label>
+            </div>
+        </div>
+        <div class="grid-area">
+            <h2>Designate your protein:</h2>
+            <div th:each="ingredient: ${protein}">
+                <input
+                        type="checkbox"
+                        name="ingredients"
+                        th:id="${'ingredient' + ingredient.getCode()}"
+                        th:value="${ingredient.getCode()}"/>
+                <label
+                        th:for="${'ingredient' + ingredient.getCode()}"
+                        th:text="${ingredient.getName()}">INGREDIENT</label>
+            </div>
+        </div>
+        <div class="grid-area">
+            <h2>Designate your veggies:</h2>
+            <div th:each="ingredient: ${veggies}">
+                <input
+                        type="checkbox"
+                        name="ingredients"
+                        th:id="${'ingredient' + ingredient.getCode()}"
+                        th:value="${ingredient.getCode()}"/>
+                <label
+                        th:for="${'ingredient' + ingredient.getCode()}"
+                        th:text="${ingredient.getName()}">INGREDIENT</label>
+            </div>
+        </div>
+        <div class="grid-area">
+            <h2>Designate your cheese:</h2>
+            <div th:each="ingredient: ${cheese}">
+                <input
+                        type="checkbox"
+                        name="ingredients"
+                        th:id="${'ingredient' + ingredient.getCode()}"
+                        th:value="${ingredient.getCode()}"/>
+                <label
+                        th:for="${'ingredient' + ingredient.getCode()}"
+                        th:text="${ingredient.getName()}">INGREDIENT</label>
+            </div>
+        </div>
+        <div class="grid-area">
+            <h2>Designate your sauce:</h2>
+            <div th:each="ingredient: ${sauce}">
+                <input
+                        type="checkbox"
+                        name="ingredients"
+                        th:id="${'ingredient' + ingredient.getCode()}"
+                        th:value="${ingredient.getCode()}"/>
+                <label
+                        th:for="${'ingredient' + ingredient.getCode()}"
+                        th:text="${ingredient.getName()}">INGREDIENT</label>
+            </div>
+        </div>
+    </div>
+    <p>
+        <label for="name">Name your creation:</label>
+        <input type="text" name="name" id="name"  th:value="*{name}"/>
+    </p>
+    <p>
+        <button type="submit">Submit your taco</button>
+    </p>
+</form>
+
+</body>
+</html>
