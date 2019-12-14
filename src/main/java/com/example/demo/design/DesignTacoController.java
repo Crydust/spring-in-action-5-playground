@@ -76,6 +76,6 @@ public class DesignTacoController {
     public String processDesign(Design design) {
         LOGGER.info("DesignTacoController.processDesign");
         LOGGER.info("design = [" + design + "]");
-        return "redirect:design";
+        return "redirect:/orders/current";
     }
 }
