@@ -1,23 +1,26 @@
-package com.example.demo;
+package com.example.demo.design;
 
 import java.util.List;
 import java.util.Objects;
 
 public class Design {
-    private final String name;
-    private final List<String> ingredients;
-
-    public Design(String name, List<String> ingredients) {
-        this.name = name;
-        this.ingredients = ingredients;
-    }
+    private String name;
+    private List<String> ingredients;
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public List<String> getIngredients() {
         return ingredients;
+    }
+
+    public void setIngredients(List<String> ingredients) {
+        this.ingredients = ingredients;
     }
 
     @Override

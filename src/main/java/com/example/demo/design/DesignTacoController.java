@@ -1,5 +1,6 @@
-package com.example.demo;
+package com.example.demo.design;
 
+import com.example.demo.Ingredient;
 import com.example.demo.Ingredient.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

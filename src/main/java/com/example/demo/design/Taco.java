@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.design;
 
 import java.util.List;
 import java.util.Objects;
