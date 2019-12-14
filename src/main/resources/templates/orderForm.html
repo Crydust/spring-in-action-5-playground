@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Taco order</title>
-    <link rel="stylesheet" th:href="@{/styles.css}"/>
+    <link rel="stylesheet" href="styles.css" th:href="@{/styles.css}" />
 </head>
 <body>
 <form method="POST" th:action="@{/orders}" th:object="${order}">
@@ -76,7 +76,7 @@
           th:errors="*{ccCVV}">CC Num Error</span>
     <br/>
 
-    <input type="submit" value="Submit order"/>
+    <p><input type="submit" value="Submit order"/></p>
 </form>
 
 </body>

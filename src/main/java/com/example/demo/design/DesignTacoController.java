@@ -6,10 +6,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -33,49 +36,37 @@ public class DesignTacoController {
             new Ingredient("SRCR", "Sour Cream", Type.SAUCE)
     );
 
+    private static List<Ingredient> ingredientsFilteredByType(List<Ingredient> ingredients, Type type) {
+        return ingredients.stream()
+                .filter(it -> it.getType() == type)
+                .collect(toList());
+    }
+
+    @ModelAttribute
+    public void addIngredientsToModel(Model model) {
+        model.addAttribute("wrap", ingredientsFilteredByType(INGREDIENTS, Ingredient.Type.WRAP));
+        model.addAttribute("protein", ingredientsFilteredByType(INGREDIENTS, Ingredient.Type.PROTEIN));
+        model.addAttribute("veggies", ingredientsFilteredByType(INGREDIENTS, Ingredient.Type.VEGGIES));
+        model.addAttribute("cheese", ingredientsFilteredByType(INGREDIENTS, Ingredient.Type.CHEESE));
+        model.addAttribute("sauce", ingredientsFilteredByType(INGREDIENTS, Ingredient.Type.SAUCE));
+    }
+
     @GetMapping("")
-    public String showDesignForm(Model model) {
-
-        model.addAttribute(
-                "wrap",
-                INGREDIENTS.stream()
-                        .filter(it -> it.getType() == Type.WRAP)
-                        .collect(toList())
-        );
-        model.addAttribute(
-                "protein",
-                INGREDIENTS.stream()
-                        .filter(it -> it.getType() == Type.PROTEIN)
-                        .collect(toList())
-        );
-        model.addAttribute(
-                "veggies",
-                INGREDIENTS.stream()
-                        .filter(it -> it.getType() == Type.VEGGIES)
-                        .collect(toList())
-        );
-        model.addAttribute(
-                "cheese",
-                INGREDIENTS.stream()
-                        .filter(it -> it.getType() == Type.CHEESE)
-                        .collect(toList())
-        );
-        model.addAttribute(
-                "sauce",
-                INGREDIENTS.stream()
-                        .filter(it -> it.getType() == Type.SAUCE)
-                        .collect(toList())
-        );
-
+    public String design(Model model) {
         model.addAttribute("design", new Taco());
 
         return "design";
     }
 
     @PostMapping("")
-    public String processDesign(Design design) {
-        LOGGER.info("DesignTacoController.processDesign");
-        LOGGER.info("design = [" + design + "]");
+    public String processDesign(@Valid @ModelAttribute("design") Taco design, Errors errors) {
+        if (errors.hasErrors()) {
+            LOGGER.error("Error processing design: {}", design);
+            return "design";
+        }
+
+        LOGGER.info("Processing design: {}", design);
+
         return "redirect:/orders/current";
     }
 }

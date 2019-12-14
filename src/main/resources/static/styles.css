@@ -1,0 +1,16 @@
+body {
+    font-family: sans-serif;
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.validationError {
+    background: pink;
+    color: red;
+    font-weight: bold;
+    padding: 0.2em;
+    border-radius: 0.2em;
+}
