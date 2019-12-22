@@ -1,24 +1,38 @@
 package com.example.demo.orders;
 
+import com.example.demo.design.Taco;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class Order {
+    private Long id;
+    private Date placedAt;
+    private List<Taco> tacos = new ArrayList<>();
+
     @NotBlank(message = "Name is required")
-    private String name;
+    @Size(max = 50, message = "maximum length 50")
+    private String deliveryName;
     @NotBlank(message = "Street is required")
-    private String street;
+    @Size(max = 50, message = "maximum length 50")
+    private String deliveryStreet;
     @NotBlank(message = "City is required")
-    private String city;
+    @Size(max = 50, message = "maximum length 50")
+    private String deliveryCity;
     @NotBlank(message = "State is required")
-    private String state;
+    @Size(max = 2, message = "maximum length 2")
+    private String deliveryState;
     @NotBlank(message = "Zip code is required")
-    private String zip;
-    @CreditCardNumber(message = "Not a valid credit card number")
+    @Size(max = 10, message = "maximum length 10")
+    private String deliveryZip;
+    @CreditCardNumber(message = "Not a valid credit card number (eg. 4111111111111111)")
     private String ccNumber;
     @Pattern(regexp = "^(0[1-9]|1[0-2])([\\\\/])([1-9][0-9])$",
             message = "Must be formatted MM/YY")
@@ -26,44 +40,68 @@ public class Order {
     @Digits(integer = 3, fraction = 0, message = "Invalid CVV")
     private String ccCVV;
 
-    public String getName() {
-        return name;
+    public Long getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getStreet() {
-        return street;
+    public Date getPlacedAt() {
+        return placedAt;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
+    public void setPlacedAt(Date placedAt) {
+        this.placedAt = placedAt;
     }
 
-    public String getCity() {
-        return city;
+    public List<Taco> getTacos() {
+        return tacos;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setTacos(List<Taco> tacos) {
+        this.tacos = tacos;
     }
 
-    public String getState() {
-        return state;
+    public String getDeliveryName() {
+        return deliveryName;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setDeliveryName(String deliveryName) {
+        this.deliveryName = deliveryName;
     }
 
-    public String getZip() {
-        return zip;
+    public String getDeliveryStreet() {
+        return deliveryStreet;
     }
 
-    public void setZip(String zip) {
-        this.zip = zip;
+    public void setDeliveryStreet(String deliveryStreet) {
+        this.deliveryStreet = deliveryStreet;
+    }
+
+    public String getDeliveryCity() {
+        return deliveryCity;
+    }
+
+    public void setDeliveryCity(String deliveryCity) {
+        this.deliveryCity = deliveryCity;
+    }
+
+    public String getDeliveryState() {
+        return deliveryState;
+    }
+
+    public void setDeliveryState(String deliveryState) {
+        this.deliveryState = deliveryState;
+    }
+
+    public String getDeliveryZip() {
+        return deliveryZip;
+    }
+
+    public void setDeliveryZip(String deliveryZip) {
+        this.deliveryZip = deliveryZip;
     }
 
     public String getCcNumber() {
@@ -95,32 +133,32 @@ public class Order {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return Objects.equals(name, order.name) &&
-                Objects.equals(street, order.street) &&
-                Objects.equals(city, order.city) &&
-                Objects.equals(state, order.state) &&
-                Objects.equals(zip, order.zip) &&
-                Objects.equals(ccNumber, order.ccNumber) &&
-                Objects.equals(ccExpiration, order.ccExpiration) &&
-                Objects.equals(ccCVV, order.ccCVV);
+        return Objects.equals(id, order.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, street, city, state, zip, ccNumber, ccExpiration, ccCVV);
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return "Order{" +
-                "name='" + name + '\'' +
-                ", street='" + street + '\'' +
-                ", city='" + city + '\'' +
-                ", state='" + state + '\'' +
-                ", zip='" + zip + '\'' +
+                "id=" + id +
+                ", placedAt=" + placedAt +
+                ", tacos=" + tacos +
+                ", name='" + deliveryName + '\'' +
+                ", street='" + deliveryStreet + '\'' +
+                ", city='" + deliveryCity + '\'' +
+                ", state='" + deliveryState + '\'' +
+                ", zip='" + deliveryZip + '\'' +
                 ", ccNumber='" + ccNumber + '\'' +
                 ", ccExpiration='" + ccExpiration + '\'' +
                 ", ccCVV='" + ccCVV + '\'' +
                 '}';
+    }
+
+    public void addDesign(Taco taco) {
+        this.tacos.add(taco);
     }
 }
