@@ -2,16 +2,38 @@ package com.example.demo.design;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 public class Taco {
+
+    private Long id;
+
+    private Date createdAt;
+
     @NotNull
-    @Size(min = 5, message = "Name must be at least 5 characters long")
+    @Size(min = 5, max= 50, message = "Name must be at least 5 characters long and be no longer than 50 characters")
     private String name;
     @NotNull
     @Size(min = 1, message = "You must choose at least 1 ingredient")
-    private List<String> ingredients;
+    private List<Ingredient> ingredients;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
     public String getName() {
         return name;
@@ -21,11 +43,11 @@ public class Taco {
         this.name = name;
     }
 
-    public List<String> getIngredients() {
+    public List<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<String> ingredients) {
+    public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 
@@ -34,12 +56,21 @@ public class Taco {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Taco taco = (Taco) o;
-        return Objects.equals(name, taco.name) &&
-                Objects.equals(ingredients, taco.ingredients);
+        return Objects.equals(id, taco.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, ingredients);
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Taco{" +
+                "id=" + id +
+                ", createdAt=" + createdAt +
+                ", name='" + name + '\'' +
+                ", ingredients=" + ingredients +
+                '}';
     }
 }
