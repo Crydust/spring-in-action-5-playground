@@ -1,6 +1,7 @@
 package com.example.demo.design;
 
 import com.example.demo.design.Ingredient.Type;
+import com.example.demo.orders.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -20,6 +22,7 @@ import static java.util.stream.Collectors.toList;
 
 @Controller
 @RequestMapping("/design")
+@SessionAttributes("order")
 public class DesignTacoController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DesignTacoController.class);
@@ -54,6 +57,11 @@ public class DesignTacoController {
         return new Taco();
     }
 
+    @ModelAttribute("order")
+    public Order order() {
+        return new Order();
+    }
+
     @GetMapping("")
     public String designForm() {
         return "design";
@@ -61,8 +69,10 @@ public class DesignTacoController {
 
     @PostMapping("")
     public String processDesign(
-            @Valid @ModelAttribute("taco") Taco taco,
-             Errors errors) {
+            @Valid @ModelAttribute(name = "taco") Taco taco,
+            Errors errors,
+            @ModelAttribute(name = "order", binding = false) Order order
+    ) {
         if (errors.hasErrors()) {
             LOGGER.error("Error processing design: {}", taco);
             return "design";
@@ -70,8 +80,9 @@ public class DesignTacoController {
 
         LOGGER.info("Processing design: {}", taco);
         final Taco saved = tacoRepository.save(taco);
-        //order.addDesign(saved);
+        order.addDesign(saved);
 
         return "redirect:/orders/current";
     }
+
 }
