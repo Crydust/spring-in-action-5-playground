@@ -17,7 +17,7 @@
 </head>
 <body>
 <h1>Design your taco!</h1>
-<form method="post" th:object="${design}">
+<form method="post" th:object="${taco}">
 
     <div th:if="${#fields.hasErrors()}">
         <span class="validationError">
@@ -32,12 +32,12 @@
                 <input
                         type="checkbox"
                         name="ingredients"
-                        th:id="${'ingredient' + ingredient.getCode()}"
-                        th:value="${ingredient.getCode()}"
+                        th:id="${'ingredient' + ingredient.getId()}"
+                        th:value="${ingredient.getId()}"
                         th:field="*{ingredients}"
                 />
                 <label
-                        th:for="${'ingredient' + ingredient.getCode()}"
+                        th:for="${'ingredient' + ingredient.getId()}"
                         th:text="${ingredient.getName()}">INGREDIENT</label>
             </div>
         </div>
@@ -47,11 +47,11 @@
                 <input
                         type="checkbox"
                         name="ingredients"
-                        th:id="${'ingredient' + ingredient.getCode()}"
-                        th:value="${ingredient.getCode()}"
+                        th:id="${'ingredient' + ingredient.getId()}"
+                        th:value="${ingredient.getId()}"
                         th:field="*{ingredients}"/>
                 <label
-                        th:for="${'ingredient' + ingredient.getCode()}"
+                        th:for="${'ingredient' + ingredient.getId()}"
                         th:text="${ingredient.getName()}">INGREDIENT</label>
             </div>
         </div>
@@ -61,11 +61,11 @@
                 <input
                         type="checkbox"
                         name="ingredients"
-                        th:id="${'ingredient' + ingredient.getCode()}"
-                        th:value="${ingredient.getCode()}"
+                        th:id="${'ingredient' + ingredient.getId()}"
+                        th:value="${ingredient.getId()}"
                         th:field="*{ingredients}"/>
                 <label
-                        th:for="${'ingredient' + ingredient.getCode()}"
+                        th:for="${'ingredient' + ingredient.getId()}"
                         th:text="${ingredient.getName()}">INGREDIENT</label>
             </div>
         </div>
@@ -75,11 +75,11 @@
                 <input
                         type="checkbox"
                         name="ingredients"
-                        th:id="${'ingredient' + ingredient.getCode()}"
-                        th:value="${ingredient.getCode()}"
+                        th:id="${'ingredient' + ingredient.getId()}"
+                        th:value="${ingredient.getId()}"
                         th:field="*{ingredients}"/>
                 <label
-                        th:for="${'ingredient' + ingredient.getCode()}"
+                        th:for="${'ingredient' + ingredient.getId()}"
                         th:text="${ingredient.getName()}">INGREDIENT</label>
             </div>
         </div>
@@ -89,11 +89,11 @@
                 <input
                         type="checkbox"
                         name="ingredients"
-                        th:id="${'ingredient' + ingredient.getCode()}"
-                        th:value="${ingredient.getCode()}"
+                        th:id="${'ingredient' + ingredient.getId()}"
+                        th:value="${ingredient.getId()}"
                         th:field="*{ingredients}"/>
                 <label
-                        th:for="${'ingredient' + ingredient.getCode()}"
+                        th:for="${'ingredient' + ingredient.getId()}"
                         th:text="${ingredient.getName()}">INGREDIENT</label>
             </div>
         </div>
