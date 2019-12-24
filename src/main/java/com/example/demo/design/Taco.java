@@ -1,11 +1,16 @@
 package com.example.demo.design;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.PrePersist;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -16,9 +21,11 @@ import java.util.Objects;
 public class Taco {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "createdat")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
     @NotNull
@@ -26,6 +33,11 @@ public class Taco {
     private String name;
 
     @ManyToMany(targetEntity = Ingredient.class)
+    @JoinTable(
+            name = "Taco_Ingredients",
+            joinColumns = @JoinColumn(name = "taco", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "ingredient", referencedColumnName = "id", nullable = false)
+    )
     @NotNull
     @Size(min = 1, message = "You must choose at least 1 ingredient")
     private List<Ingredient> ingredients;

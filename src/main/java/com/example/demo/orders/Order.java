@@ -3,13 +3,18 @@ package com.example.demo.orders;
 import com.example.demo.design.Taco;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -25,33 +30,49 @@ import java.util.Objects;
 public class Order implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "placedat")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date placedAt;
 
     @OneToMany(targetEntity = Taco.class)
+    @JoinTable(
+            name = "Taco_Order_Tacos",
+            joinColumns = @JoinColumn(name = "tacoorder", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "taco", referencedColumnName = "id", nullable = false)
+    )
     private List<Taco> tacos = new ArrayList<>();
 
+    @Column(name = "deliveryname")
     @NotBlank(message = "Name is required")
     @Size(max = 50, message = "maximum length 50")
     private String deliveryName;
+    @Column(name = "deliverystreet")
     @NotBlank(message = "Street is required")
     @Size(max = 50, message = "maximum length 50")
     private String deliveryStreet;
+    @Column(name = "deliverycity")
     @NotBlank(message = "City is required")
     @Size(max = 50, message = "maximum length 50")
     private String deliveryCity;
+    @Column(name = "deliverystate")
     @NotBlank(message = "State is required")
     @Size(max = 2, message = "maximum length 2")
     private String deliveryState;
+    @Column(name = "deliveryzip")
     @NotBlank(message = "Zip code is required")
     @Size(max = 10, message = "maximum length 10")
     private String deliveryZip;
+    @Column(name = "ccnumber")
     @CreditCardNumber(message = "Not a valid credit card number (eg. 4111111111111111)")
     private String ccNumber;
+    @Column(name = "ccexpiration")
     @Pattern(regexp = "^(0[1-9]|1[0-2])([\\\\/])([1-9][0-9])$",
             message = "Must be formatted MM/YY")
     private String ccExpiration;
+    @Column(name = "cccvv")
     @Digits(integer = 3, fraction = 0, message = "Invalid CVV")
     private String ccCVV;
 
