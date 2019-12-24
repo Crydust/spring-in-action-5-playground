@@ -3,18 +3,33 @@ package com.example.demo.orders;
 import com.example.demo.design.Taco;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-public class Order {
+@Entity
+@Table(name = "Taco_Order")
+public class Order implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Date placedAt;
+
+    @OneToMany(targetEntity = Taco.class)
     private List<Taco> tacos = new ArrayList<>();
 
     @NotBlank(message = "Name is required")
@@ -39,6 +54,11 @@ public class Order {
     private String ccExpiration;
     @Digits(integer = 3, fraction = 0, message = "Invalid CVV")
     private String ccCVV;
+
+    @PrePersist
+    void prePersist() {
+        this.placedAt = new Date();
+    }
 
     public Long getId() {
         return id;

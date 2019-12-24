@@ -7,6 +7,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Optional;
+
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -26,8 +28,8 @@ class DesignTacoControllerIT {
 
     @BeforeEach
     void setUp() {
-        when(ingredientRepository.findOne("DUMMY"))
-                .thenReturn(new Ingredient("DUMMY", "dummy", Ingredient.Type.CHEESE));
+        when(ingredientRepository.findById("DUMMY"))
+                .thenReturn(Optional.of(new Ingredient("DUMMY", "dummy", Ingredient.Type.CHEESE)));
     }
 
     @Test

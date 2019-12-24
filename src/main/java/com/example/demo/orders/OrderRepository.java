@@ -1,5 +1,6 @@
 package com.example.demo.orders;
 
-public interface OrderRepository {
-    Order save (Order order);
+import org.springframework.data.repository.CrudRepository;
+
+public interface OrderRepository extends CrudRepository<Order, Long> {
 }

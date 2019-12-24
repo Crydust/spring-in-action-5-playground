@@ -1,11 +1,19 @@
 package com.example.demo.design;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.Objects;
 
+@Entity
 public class Ingredient {
+    @Id
     private final String id;
     private final String name;
     private final Type type;
+
+    private Ingredient() {
+        this(null, null, null);
+    }
 
     public Ingredient(String id, String name, Type type) {
         this.id = id;
