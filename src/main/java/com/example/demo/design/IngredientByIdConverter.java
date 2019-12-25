@@ -1,6 +1,7 @@
 package com.example.demo.design;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +16,7 @@ public class IngredientByIdConverter implements Converter<String, Ingredient> {
     }
 
     @Override
-    //@Cacheable("ingredients")
+    @Cacheable("ingredients")
     public Ingredient convert(String id) {
         return ingredientRepo.findById(id).orElse(null);
     }
