@@ -1,16 +1,21 @@
 package com.example.demo.design;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class Ingredient {
+public class Ingredient implements Serializable {
     @Id
+    @Column(length = 4)
     private final String id;
+    @Column(length = 25, nullable = false)
     private final String name;
+    @Column(length = 10, nullable = false)
     @Enumerated(EnumType.STRING)
     private final Type type;
 

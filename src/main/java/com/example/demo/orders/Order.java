@@ -20,10 +20,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "Taco_Order")
@@ -33,7 +33,7 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "placedat")
+    @Column(name = "placedat", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date placedAt;
 
@@ -43,36 +43,36 @@ public class Order implements Serializable {
             joinColumns = @JoinColumn(name = "tacoorder", referencedColumnName = "id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "taco", referencedColumnName = "id", nullable = false)
     )
-    private List<Taco> tacos = new ArrayList<>();
+    private Set<Taco> tacos = new HashSet<>();
 
-    @Column(name = "deliveryname")
+    @Column(name = "deliveryname", length = 50, nullable = false)
     @NotBlank(message = "Name is required")
     @Size(max = 50, message = "maximum length 50")
     private String deliveryName;
-    @Column(name = "deliverystreet")
+    @Column(name = "deliverystreet", length = 50, nullable = false)
     @NotBlank(message = "Street is required")
     @Size(max = 50, message = "maximum length 50")
     private String deliveryStreet;
-    @Column(name = "deliverycity")
+    @Column(name = "deliverycity", length = 50, nullable = false)
     @NotBlank(message = "City is required")
     @Size(max = 50, message = "maximum length 50")
     private String deliveryCity;
-    @Column(name = "deliverystate")
+    @Column(name = "deliverystate", length = 2, nullable = false)
     @NotBlank(message = "State is required")
     @Size(max = 2, message = "maximum length 2")
     private String deliveryState;
-    @Column(name = "deliveryzip")
+    @Column(name = "deliveryzip", length = 10, nullable = false)
     @NotBlank(message = "Zip code is required")
     @Size(max = 10, message = "maximum length 10")
     private String deliveryZip;
-    @Column(name = "ccnumber")
+    @Column(name = "ccnumber", length = 16, nullable = false)
     @CreditCardNumber(message = "Not a valid credit card number (eg. 4111111111111111)")
     private String ccNumber;
-    @Column(name = "ccexpiration")
+    @Column(name = "ccexpiration", length = 5, nullable = false)
     @Pattern(regexp = "^(0[1-9]|1[0-2])([\\\\/])([1-9][0-9])$",
             message = "Must be formatted MM/YY")
     private String ccExpiration;
-    @Column(name = "cccvv")
+    @Column(name = "cccvv", length = 3, nullable = false)
     @Digits(integer = 3, fraction = 0, message = "Invalid CVV")
     private String ccCVV;
 
@@ -97,11 +97,11 @@ public class Order implements Serializable {
         this.placedAt = placedAt;
     }
 
-    public List<Taco> getTacos() {
+    public Set<Taco> getTacos() {
         return tacos;
     }
 
-    public void setTacos(List<Taco> tacos) {
+    public void setTacos(Set<Taco> tacos) {
         this.tacos = tacos;
     }
 

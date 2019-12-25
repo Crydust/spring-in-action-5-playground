@@ -13,22 +13,24 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
-public class Taco {
+public class Taco implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "createdat")
+    @Column(name = "createdat", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
     @NotNull
+    @Column(length = 50, nullable = false)
     @Size(min = 5, max= 50, message = "Name must be at least 5 characters long and be no longer than 50 characters")
     private String name;
 
@@ -40,7 +42,7 @@ public class Taco {
     )
     @NotNull
     @Size(min = 1, message = "You must choose at least 1 ingredient")
-    private List<Ingredient> ingredients;
+    private Set<Ingredient> ingredients;
 
     @PrePersist
     void prePersist() {
@@ -71,11 +73,11 @@ public class Taco {
         this.name = name;
     }
 
-    public List<Ingredient> getIngredients() {
+    public Set<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
+    public void setIngredients(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 
