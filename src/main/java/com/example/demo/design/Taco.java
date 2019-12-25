@@ -29,6 +29,7 @@ public class Taco {
     private Date createdAt;
 
     @NotNull
+    @Column(length = 50)
     @Size(min = 5, max= 50, message = "Name must be at least 5 characters long and be no longer than 50 characters")
     private String name;
 

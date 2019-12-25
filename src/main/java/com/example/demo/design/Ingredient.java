@@ -1,5 +1,6 @@
 package com.example.demo.design;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -9,8 +10,11 @@ import java.util.Objects;
 @Entity
 public class Ingredient {
     @Id
+    @Column(length = 4)
     private final String id;
+    @Column(length = 25)
     private final String name;
+    @Column(length = 10)
     @Enumerated(EnumType.STRING)
     private final Type type;
 
