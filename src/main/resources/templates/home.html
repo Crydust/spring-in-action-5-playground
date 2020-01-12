@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8"/>
     <title>Welcome to TacoCloud</title>
@@ -8,7 +9,15 @@
 </head>
 <body>
 <h1>Welcome to TacoCloud</h1>
+
+<form method="post" th:action="@{/logout}" sec:authorize="isAuthenticated()">
+    <p>
+        <button type="submit">Logout</button>
+    </p>
+</form>
+
 <p><img src="images/TacoCloud.png" th:src="@{images/TacoCloud.png}" alt=""/></p>
 <p><a href="design.html" th:href="@{/design}">Design your taco!</a></p>
+
 </body>
 </html>

@@ -1,15 +1,18 @@
 package com.example.demo.orders;
 
 import com.example.demo.design.Taco;
+import com.example.demo.users.User;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -44,6 +47,10 @@ public class Order implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "taco", referencedColumnName = "id", nullable = false)
     )
     private Set<Taco> tacos = new HashSet<>();
+
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user", nullable = false)
+    private User user;
 
     @Column(name = "deliveryname", length = 50, nullable = false)
     @NotBlank(message = "Name is required")
@@ -103,6 +110,14 @@ public class Order implements Serializable {
 
     public void setTacos(Set<Taco> tacos) {
         this.tacos = tacos;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getDeliveryName() {
@@ -188,11 +203,12 @@ public class Order implements Serializable {
                 "id=" + id +
                 ", placedAt=" + placedAt +
                 ", tacos=" + tacos +
-                ", name='" + deliveryName + '\'' +
-                ", street='" + deliveryStreet + '\'' +
-                ", city='" + deliveryCity + '\'' +
-                ", state='" + deliveryState + '\'' +
-                ", zip='" + deliveryZip + '\'' +
+                ", user=" + user +
+                ", deliveryName='" + deliveryName + '\'' +
+                ", deliveryStreet='" + deliveryStreet + '\'' +
+                ", deliveryCity='" + deliveryCity + '\'' +
+                ", deliveryState='" + deliveryState + '\'' +
+                ", deliveryZip='" + deliveryZip + '\'' +
                 ", ccNumber='" + ccNumber + '\'' +
                 ", ccExpiration='" + ccExpiration + '\'' +
                 ", ccCVV='" + ccCVV + '\'' +

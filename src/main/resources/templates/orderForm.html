@@ -1,16 +1,22 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8"/>
     <title>Taco order</title>
     <link rel="stylesheet" href="styles.css" th:href="@{/styles.css}" />
 </head>
 <body>
-<form method="POST" th:action="@{/orders}" th:object="${order}">
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+<h1>Order your taco creations</h1>
 
-    <h1>Order your taco creations</h1>
+<form method="post" th:action="@{/logout}" sec:authorize="isAuthenticated()">
+    <p>
+        <button type="submit">Logout</button>
+    </p>
+</form>
+
+<form method="POST" th:action="@{/orders}" th:object="${order}">
 
     <p><a href="design.html" th:href="@{/design}">Design another taco!</a></p>
     <ul>
@@ -21,6 +27,9 @@
         <span class="validationError">
         Please correct the problems below and resubmit.
         </span>
+        <ul class="validationError" th:if="${#fields.hasGlobalErrors()}">
+            <li th:each="error : ${#fields.globalErrors()}" th:text="${error}">global error</li>
+        </ul>
     </div>
 
     <h3>Deliver my taco masterpieces to...</h3>

@@ -2,6 +2,7 @@ package com.example.demo.design;
 
 import com.example.demo.design.Ingredient.Type;
 import com.example.demo.orders.Order;
+import com.example.demo.users.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.StreamSupport;
 
@@ -29,11 +31,13 @@ public class DesignTacoController {
 
     private final IngredientRepository ingredientRepository;
     private final TacoRepository tacoRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public DesignTacoController(IngredientRepository ingredientRepository, TacoRepository tacoRepository) {
+    public DesignTacoController(IngredientRepository ingredientRepository, TacoRepository tacoRepository, UserRepository userRepository) {
         this.ingredientRepository = ingredientRepository;
         this.tacoRepository = tacoRepository;
+        this.userRepository = userRepository;
     }
 
     private static List<Ingredient> ingredientsFilteredByType(Iterable<Ingredient> ingredients, Type type) {
@@ -63,7 +67,15 @@ public class DesignTacoController {
     }
 
     @GetMapping("")
-    public String designForm() {
+    public String designForm(
+            Model model,
+            Principal principal
+    ) {
+        // TODO https://stackoverflow.com/questions/52180555/mock-authenticationprincipal-argument
+        //  https://fourminded.blogspot.com/2016/03/mocking-authenticationprincipal-in.html
+        //  Doing this for test convenience instead of
+        //  @AuthenticationPrincipal User user
+        model.addAttribute("user", userRepository.findByUsername(principal.getName()).orElseThrow());
         return "design";
     }
 
@@ -71,10 +83,17 @@ public class DesignTacoController {
     public String processDesign(
             @Valid @ModelAttribute(name = "taco") Taco taco,
             Errors errors,
-            @ModelAttribute(name = "order", binding = false) Order order
+            @ModelAttribute(name = "order", binding = false) Order order,
+            Model model,
+            Principal principal
     ) {
         if (errors.hasErrors()) {
             LOGGER.error("Error processing design: {}", taco);
+            // TODO https://stackoverflow.com/questions/52180555/mock-authenticationprincipal-argument
+            //  https://fourminded.blogspot.com/2016/03/mocking-authenticationprincipal-in.html
+            //  Doing this for test convenience instead of
+            //  @AuthenticationPrincipal User user
+            model.addAttribute("user", userRepository.findByUsername(principal.getName()).orElseThrow());
             return "design";
         }
 
