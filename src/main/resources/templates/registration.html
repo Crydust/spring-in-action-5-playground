@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Register</title>
+    <link rel="stylesheet" href="styles.css" th:href="@{/styles.css}"/>
+</head>
+<body>
+<h1>Register</h1>
+<form method="post" th:action="@{/register}" id="registerForm" th:object="${registration}">
+
+    <div th:if="${#fields.hasErrors()}">
+        <span class="validationError">
+        Please correct the problems below and resubmit.
+        </span>
+        <ul class="validationError" th:if="${#fields.hasGlobalErrors()}">
+            <li th:each="error : ${#fields.globalErrors()}" th:text="${error}">global error</li>
+        </ul>
+    </div>
+
+    <p>
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" th:value="*{username}" autocomplete="username"/>
+        <span class="validationError"
+              th:if="${#fields.hasErrors('username')}"
+              th:errors="*{username}">username Error</span>
+    </p>
+    <p>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" th:value="*{password}" autocomplete="new-password"/>
+        <span class="validationError"
+              th:if="${#fields.hasErrors('password')}"
+              th:errors="*{password}">password Error</span>
+    </p>
+    <p>
+        <label for="confirm">Confirm password:</label>
+        <input type="password" name="confirm" id="confirm" th:value="*{confirm}" autocomplete="new-password"/>
+        <span class="validationError"
+              th:if="${#fields.hasErrors('confirm')}"
+              th:errors="*{confirm}">confirm Error</span>
+    </p>
+    <p>
+        <label for="fullname">Fullname:</label>
+        <input type="text" name="fullname" id="fullname" th:value="*{fullname}" autocomplete="name"/>
+        <span class="validationError"
+              th:if="${#fields.hasErrors('fullname')}"
+              th:errors="*{fullname}">fullname Error</span>
+    </p>
+    <p>
+        <label for="street">Street:</label>
+        <input type="text" name="street" id="street" th:value="*{street}" autocomplete="address-line1"/>
+        <span class="validationError"
+              th:if="${#fields.hasErrors('street')}"
+              th:errors="*{street}">street Error</span>
+    </p>
+    <p>
+        <label for="city">City:</label>
+        <input type="text" name="city" id="city" th:value="*{city}" autocomplete="address-level2"/>
+        <span class="validationError"
+              th:if="${#fields.hasErrors('city')}"
+              th:errors="*{city}">city Error</span>
+    </p>
+    <p>
+        <label for="state">State:</label>
+        <input type="text" name="state" id="state" th:value="*{state}" autocomplete="address-level1"/>
+        <span class="validationError"
+              th:if="${#fields.hasErrors('state')}"
+              th:errors="*{state}">state Error</span>
+    </p>
+    <p>
+        <label for="zip">Zip:</label>
+        <input type="text" name="zip" id="zip" th:value="*{zip}" autocomplete="postal-code"/>
+        <span class="validationError"
+              th:if="${#fields.hasErrors('zip')}"
+              th:errors="*{zip}">zip Error</span>
+    </p>
+    <p>
+        <label for="phoneNumber">PhoneNumber:</label>
+        <input type="text" name="phoneNumber" id="phoneNumber" th:value="*{phoneNumber}" autocomplete="tel"/>
+        <span class="validationError"
+              th:if="${#fields.hasErrors('phoneNumber')}"
+              th:errors="*{phoneNumber}">phoneNumber Error</span>
+    </p>
+
+    <p>
+        <button type="submit">Register</button>
+    </p>
+</form>
+
+</body>
+</html>
