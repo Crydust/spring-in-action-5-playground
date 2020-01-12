@@ -3,6 +3,7 @@ package com.example.demo;
 import com.example.demo.design.Ingredient;
 import com.example.demo.design.Taco;
 import com.example.demo.orders.Order;
+import com.example.demo.users.User;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -24,6 +25,7 @@ public class ExportSchema {
                 .addAnnotatedClass(Ingredient.class)
                 .addAnnotatedClass(Taco.class)
                 .addAnnotatedClass(Order.class)
+                .addAnnotatedClass(User.class)
                 .buildMetadata();
         new SchemaExport()
                 .setFormat(true)
